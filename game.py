@@ -5,7 +5,7 @@ from stubs import determine_question_state, select_best_noun
 
 MAX_QUESTIONS = 20
 MAX_QUESTION_LENGTH = 500
-NOUN_POOL_SIZE = 20
+NOUN_POOL_SIZE = 40
 
 
 class GameSession:
