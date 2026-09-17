@@ -1,16 +1,32 @@
 import asyncio
+import importlib
 import json
 import os
 
 import tslog
 from quart import Quart, render_template, websocket
-from quart.wrappers.base import ClientDisconnectedError
 
 from game import GameSession, MAX_QUESTION_LENGTH
 from limits import GameLimiter
 
 app = Quart(__name__)
 limiter = GameLimiter(path=os.environ.get("LIMITS_DB"))
+
+_disconnect_types = []
+for _mod, _names in (
+    ("quart.wrappers.base", ("ClientDisconnectedError", "ConnectionClosed")),
+    ("quart.ws", ("ConnectionClosed",)),
+):
+    try:
+        _m = importlib.import_module(_mod)
+    except ImportError:
+        continue
+    _disconnect_types += [getattr(_m, n) for n in _names if hasattr(_m, n)]
+if not _disconnect_types:
+    import websockets.exceptions
+
+    _disconnect_types.append(websockets.exceptions.ConnectionClosed)
+DISCONNECT_ERRORS = tuple(_disconnect_types)
 
 
 def client_ip() -> str:
@@ -90,7 +106,7 @@ async def ws_handler():
                 return
             else:
                 await websocket.send(json.dumps({"type": "error", "message": "unknown type"}))
-        except ClientDisconnectedError:
+        except DISCONNECT_ERRORS:
             break
 
 
