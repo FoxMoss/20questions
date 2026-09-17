@@ -37,3 +37,7 @@
 #explainer {
   display: none;
 }
+
+#log {
+  text-wrap-mode: wrap;
+}

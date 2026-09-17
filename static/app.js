@@ -15,7 +15,6 @@ let App = function () {
   ws.onmessage = (e) => {
     this.spend += 0.000023856 + Math.random() * 0.00001
     const m = JSON.parse(e.data);
-    show(JSON.stringify(m));
     if (m.type == "answer") {
       this.questions.pop()
       this.questions.push(html`<div class="response">${m.answer}</div>`)
@@ -30,8 +29,10 @@ let App = function () {
 
       this.done = true;
       (m.log || []).forEach((entry) => {
-        show("#log " + entry.kind + " req=" + JSON.stringify(entry.request) + " resp=" + JSON.stringify(entry.response));
+        show("req=" + JSON.stringify(entry.request, null, 2) + "\nresp=" + JSON.stringify(entry.response, null, 2));
       });
+
+      document.getElementById("log").innerText = this.log;
     } else if (m.type === "error") {
       this.status = m.message;
     }

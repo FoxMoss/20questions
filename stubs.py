@@ -12,7 +12,7 @@ def select_best_noun(candidates: Sequence[str]) -> str:
     state = {}
     questions = {
         "best_noun": Choice(
-            instructions="Which word would be the easiest to guess? Normally easy to guess words are physical concrete things that are common.",
+            instructions="Which word would be the easiest to guess? Normally easy to guess words are physical concrete things that are common. Pick words that don't have double meanings.",
             criteria={noun: None for noun in candidates},
         ),
     }
