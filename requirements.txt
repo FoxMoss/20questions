@@ -1,5 +1,5 @@
-flask
-flask-sock
+quart
+uvicorn[standard]
 python-dotenv
 wonderwords
 requests

@@ -37,7 +37,7 @@ let App = function () {
       this.status = m.message;
     }
   };
-  ws.onclose = () => { if (!this.done) this.status = "disconnected, you can only play 10 games every hour"; };
+  ws.onclose = () => { if (!this.done) this.status = "disconnected, you can only play 10 games every 24 hours"; };
 
   const ask = (value) => {
     if (!value || this.done) return;
