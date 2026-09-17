@@ -71,12 +71,14 @@ def ws(ws):
                 send_and_close(ws, json.dumps({"type": "error", "message": str(exc)}))
                 return
             if result["type"] in ("success", "fail"):
+                result["limits"] = limiter.status(client_ip())
                 send_and_close(ws, json.dumps(result))
                 return
             ws.send(json.dumps(result))
         elif msg.get("type") == "give_up":
             result = session.give_up()
             if result["type"] in ("success", "fail"):
+                result["limits"] = limiter.status(client_ip())
                 send_and_close(ws, json.dumps(result))
                 return
             ws.send(json.dumps(result))

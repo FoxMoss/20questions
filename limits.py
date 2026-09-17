@@ -21,3 +21,18 @@ class GameLimiter:
                 return False
             history.append(now)
             return True
+
+    def status(self, ip: str) -> dict:
+        now = time.time()
+        with self._lock:
+            history = self._games.get(ip, deque())
+            cutoff = now - self.window_seconds
+            while history and history[0] < cutoff:
+                history.popleft()
+            used = len(history)
+        return {
+            "limit": self.max_games,
+            "window_seconds": self.window_seconds,
+            "used": used,
+            "remaining": max(self.max_games - used, 0),
+        }

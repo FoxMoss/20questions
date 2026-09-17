@@ -25,7 +25,7 @@ let App = function () {
       this.questions.push(html`<div class="response">${m.type}</div>`)
       this.questions = this.questions;
 
-      this.answer = `the word was ${m.noun}`
+      this.answer = `the word was ${m.noun}` 
 
       this.done = true;
       (m.log || []).forEach((entry) => {
@@ -37,7 +37,7 @@ let App = function () {
       this.status = m.message;
     }
   };
-  ws.onclose = () => { if (!this.done) this.status = "disconnected, maybe reload"; };
+  ws.onclose = () => { if (!this.done) this.status = "disconnected, you can only play 10 games every hour"; };
 
   const ask = (value) => {
     if (!value || this.done) return;
