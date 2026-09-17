@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>lonely 20 questions</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "dreamland/core": "/static/dreamland/core.js",
+      "dreamland/js-runtime": "/static/dreamland/js-runtime.js"
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <div class="body">
+    <h1>lonely 20 questions</h1>
+    <div>you may be sad and have no friends but you can still play 20 questions.</div>
+    <br />
+    <div>powered by machine learning,
+      yes, yet uses no LLMs &amp; costs nearly nothing to run.</div>
+
+    <div id="app"></div>
+
+    <div id="explainer">
+      <h3>so how does this work?</h1>
+        <div>this works by using the <a href="https://typesafe.ai/">jev system one model from typesafe ai</a>.</div>
+        <br>
+        <div>for every user 10 random nouns are picked from wonder words, jev decides whats the easiest to guess and
+          uses
+          that word.
+        </div>
+        <br>
+        <div>every time you ask a question jev evaluates if question is yes or no, and if the question means you know
+          what
+          the word is.</div>
+        <br>
+        <div>we send those results back to the user, and that's the game.</div>
+        <br>
+        <div>if you want to see more from me, sign up to my email list. i make mostly low level engineering projects,
+          you
+          can check out my stuff at <a href="https://foxmoss.com/blog/">foxmoss.com/blog/</a></div>
+        <br>
+        <form action="https://buttondown.com/api/emails/embed-subscribe/foxmoss" method="post"
+          class="embeddable-buttondown-form">
+          <label for="bd-email">email:</label>
+          <input type="email" name="email" id="bd-email" />
+          <input type="submit" value="subscribe" />
+        </form>
+        <br>
+        <div>here's every request we sent to jev:</div>
+
+        <pre id="log"></pre>
+
+        <br>
+        <div>reload the page to play again</div>
+    </div>
+  </div>
+  <script type="module" src="/static/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+flask
+flask-sock
+python-dotenv
+wonderwords
+requests
+typesafe-sdk
