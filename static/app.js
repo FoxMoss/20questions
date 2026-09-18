@@ -6,7 +6,8 @@ let App = function () {
   this.done = false;
   this.spend = 0;
   this.questions = [];
-  this.answer = "";
+  this.answer = ""
+  this.startedAt = null;
 
   this.mode = localStorage["mode"] ? localStorage["mode"] : "daily-mode";
 
@@ -41,6 +42,13 @@ let App = function () {
 
       this.answer = `the word was ${m.noun}`;
 
+      if (this.startedAt != null) {
+        const secs = Math.floor((performance.now() - this.startedAt) / 1000);
+        const mm = String(Math.floor(secs / 60)).padStart(2, "0");
+        const ss = String(secs % 60).padStart(2, "0");
+        this.status = `${mm}:${ss}`;
+      }
+
       this.done = true;
       (m.log || []).forEach((entry) => {
         show(
@@ -64,6 +72,7 @@ let App = function () {
   let first_ask = true;
   const ask = (value) => {
     if (!value || this.done) return;
+    if (this.startedAt == null) this.startedAt = performance.now();
 
     this.questions.push(html`<div class="from-user">${value}</div>`);
     this.questions.push(html`<div class="response">...</div>`);
