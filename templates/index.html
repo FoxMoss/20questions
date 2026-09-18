@@ -24,7 +24,12 @@
 
 <body>
   <div class="body">
-    <h1>lonely 20 questions</h1>
+    <h1 class="title">lonely 20 questions</h1>
+
+    <a href="https://hackclub.com/"><img
+        style="position: absolute; top: 10px; right: 10px; border: 0; width: 100px; z-index: 999;"
+        src="https://assets.hackclub.com/banners/2026.svg" alt="Hack Club" /></a>
+
     <div>you may be sad and have no friends but you can still play 20 questions.</div>
     <br />
     <div>powered by machine learning,
@@ -33,18 +38,18 @@
     <br />
     <div>1 common english noun, 20 questions, ask yes or no questions.</div>
 
-    <br />
-    <div>
-      this game is hard, good luck
-    </div>
 
-    <div id="app"></div>
+    <div id="app">loading...</div>
 
     <div id="explainer">
       <h3>so how does this work?</h1>
         <div>this works by using the <a href="https://typesafe.ai/">jev system one model from typesafe ai</a>.</div>
         <br>
-        <div>for every user 10 random nouns are picked from wonder words, jev decides whats the easiest to guess and
+        <div>jev isn't an llm. it doesn't generate text. all it does is generate probabilities of choices i give it.
+        </div>
+        <br>
+        <div>so in context, for every user 10 random nouns are picked from wonder words, jev decides whats the easiest
+          to guess and
           uses
           that word.
         </div>
@@ -70,7 +75,7 @@
           <input type="submit" value="subscribe" />
         </form>
         <br>
-        <div>here's every request we sent to jev:</div>
+        <div>once a game finishes the full log of things sent to jev will show up here:</div>
 
         <pre id="log"></pre>
 

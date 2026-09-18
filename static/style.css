@@ -15,10 +15,10 @@
 }
 
 .questions {
-    display: grid;
-    grid-template-columns: auto 100px;
-    padding: 20px;
-    gap: 10px;
+  display: grid;
+  grid-template-columns: auto 100px;
+  padding: 20px;
+  gap: 10px;
 }
 
 .response {
@@ -34,10 +34,37 @@
   width: 100px;
 }
 
-#explainer {
-  display: none;
+#app {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  min-height: 200px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#app-running {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  min-height: 200px;
 }
 
 #log {
   text-wrap-mode: wrap;
 }
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mode-select {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.title {
+  /* margin-top: 80px; */
+}
+

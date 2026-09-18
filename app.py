@@ -30,6 +30,9 @@ DISCONNECT_ERRORS = tuple(_disconnect_types)
 
 
 def client_ip() -> str:
+    cf = websocket.headers.get("CF-Connecting-IP", "")
+    if cf:
+        return cf.strip()
     xff = websocket.headers.get("X-Forwarded-For", "")
     if xff:
         return xff.split(",")[0].strip()
@@ -41,7 +44,7 @@ def client_ip() -> str:
 
 def limit_message() -> str:
     hours = max(limiter.window_seconds // 3600, 1)
-    return f"limit reached: {limiter.max_games} games per {hours} hour(s) per IP"
+    return f"daily limit reached"
 
 
 @app.route("/")
@@ -52,14 +55,11 @@ async def index():
 @app.websocket("/ws")
 async def ws_handler():
     ip = client_ip()
-    if not await asyncio.to_thread(limiter.allow, ip):
-        await websocket.send(json.dumps({"type": "error", "message": limit_message()}))
-        await websocket.close(1000)
-        return
 
     session = await asyncio.to_thread(GameSession)
     tslog.use(session.log)
 
+    allowed = False
     while True:
         try:
             raw = await websocket.receive()
@@ -68,6 +68,13 @@ async def ws_handler():
             except json.JSONDecodeError:
                 await websocket.send(json.dumps({"type": "error", "message": "invalid json"}))
                 continue
+
+            if not allowed and not await asyncio.to_thread(limiter.allow, ip):
+                await websocket.send(json.dumps({"type": "error", "message": limit_message()}))
+                await websocket.close(1000)
+                return
+
+            allowed = True
 
             if msg.get("type") == "question":
                 question = str(msg.get("question", ""))
@@ -93,6 +100,8 @@ async def ws_handler():
                     await websocket.close(1000)
                     return
                 await websocket.send(json.dumps(result))
+            elif msg.get("type") in ("daily-mode", "endless-mode"):
+                await websocket.send(json.dumps(session.set_mode(msg["type"])))
             elif msg.get("type") == "give_up":
                 try:
                     result = await asyncio.to_thread(session.give_up)
